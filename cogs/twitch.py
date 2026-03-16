@@ -45,8 +45,8 @@ class Twitch(commands.Cog):
                         channel = self.bot.get_channel(1275830924776574999)
                         await channel.send(f"@everyone , drykai est en stream juste ici --> https://twitch.tv/{self.streamer_name} !")
                         print(f" Alerte stream envoyée pour {self.streamer_name}")
-                    else:
-                        self.is_live = False
+                else:
+                    self.is_live = False
 
     @check_twitch.before_loop
     async def before_check_twitch(self):
