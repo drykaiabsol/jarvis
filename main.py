@@ -20,7 +20,7 @@ async def load_extensions():
 @bot.event
 async def on_ready():
     print(f'J.A.R.V.I.S. est en ligne sous le nom : {bot.user}')
-    print('--- Protocoles Stark Industries initialisés ---')
+    print('Initialisé')
 
 async def main():
     async with bot:
