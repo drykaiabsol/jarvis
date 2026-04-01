@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 import asyncio
 from config import STUDY_CHANNELS, STUDY_TEXT_CHANNEL
+from logger import setup_logger
+
+log = setup_logger("study")
 
 class Study(commands.Cog):
     def __init__(self, bot):
@@ -21,14 +24,14 @@ class Study(commands.Cog):
             if before.channel is None or before.channel.id != after.channel.id:
                 if member.id not in self.active_sessions:
                     work_min, pause_min = self.configs[after.channel.id]
-                    print(f"Lancement {work_min}/{pause_min} : {member.display_name}")
+                    log.info(f"Lancement {work_min}/{pause_min} : {member.display_name}")
                     task = asyncio.create_task(self.start_pomodoro(member, work_min, pause_min))
                     self.active_sessions[member.id] = task
 
         if before.channel and before.channel.id in self.configs:
             if after.channel is None or after.channel.id != before.channel.id:
                 if member.id in self.active_sessions:
-                    print(f"Arrêt session : {member.display_name}")
+                    log.info(f"Arrêt session : {member.display_name}")
                     self.active_sessions[member.id].cancel()
                     del self.active_sessions[member.id]
 

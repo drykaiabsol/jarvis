@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands, tasks
 import aiohttp
 from config import TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, TWITCH_STREAMER, TWITCH_ANNOUNCE_CHANNEL
+from logger import setup_logger
+
+log = setup_logger("twitch")
 
 class Twitch(commands.Cog):
     def __init__(self, bot):
@@ -26,7 +29,7 @@ class Twitch(commands.Cog):
     async def check_twitch(self):
         token = await self.get_access_token()
         if not token:
-            print(" Impossible de récupérer le token Twitch. ")
+            log.error(" Impossible de récupérer le token Twitch. ")
             return
         
         headers = {
@@ -44,7 +47,7 @@ class Twitch(commands.Cog):
                         self.is_live = True
                         channel = self.bot.get_channel(TWITCH_ANNOUNCE_CHANNEL)
                         await channel.send(f"@everyone , drykai est en stream juste ici --> https://twitch.tv/{self.streamer_name} !")
-                        print(f" Alerte stream envoyée pour {self.streamer_name}")
+                        log.info(f" Alerte stream envoyée pour {self.streamer_name}")
                 else:
                     self.is_live = False
 
