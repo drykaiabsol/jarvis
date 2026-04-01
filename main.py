@@ -4,6 +4,7 @@ import asyncio
 from discord.ext import commands
 from config import DISCORD_TOKEN
 from logger import setup_logger
+from database.models import init_db
 
 log = setup_logger("main")
 
@@ -19,6 +20,7 @@ async def load_extensions():
 
 @bot.event
 async def on_ready():
+    await init_db()
     log.info(f"J.A.R.V.I.S. est en ligne sous le nom : {bot.user}")
     log.info('Initialisé')
 
