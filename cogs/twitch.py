@@ -1,14 +1,14 @@
 import discord
 from discord.ext import commands, tasks
 import aiohttp
-import os
+from config import TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, TWITCH_STREAMER, TWITCH_ANNOUNCE_CHANNEL
 
 class Twitch(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.client_id = os.getenv('TWITCH_CLIENT_ID')
-        self.client_secret = os.getenv('TWITCH_CLIENT_SECRET')
-        self.streamer_name = "drykai_"
+        self.client_id = TWITCH_CLIENT_ID
+        self.client_secret = TWITCH_CLIENT_SECRET
+        self.streamer_name = TWITCH_STREAMER
         self.is_live = False
         self.check_twitch.start()
 
@@ -42,7 +42,7 @@ class Twitch(commands.Cog):
                 if data.get('data'):
                     if not self.is_live:
                         self.is_live = True
-                        channel = self.bot.get_channel(1275830924776574999)
+                        channel = self.bot.get_channel(TWITCH_ANNOUNCE_CHANNEL)
                         await channel.send(f"@everyone , drykai est en stream juste ici --> https://twitch.tv/{self.streamer_name} !")
                         print(f" Alerte stream envoyée pour {self.streamer_name}")
                 else:

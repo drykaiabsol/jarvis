@@ -1,16 +1,16 @@
 import discord
 from discord.ext import commands
 import asyncio
+from config import STUDY_CHANNELS, STUDY_TEXT_CHANNEL
 
 class Study(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.configs = {
-            1482535753325088889: (25, 5),
-            1482535885043142688: (50, 10),
-            1483499790699462778: (90, 20)
-        }
-        self.study_channel_id = 1482758719942168809
+        self.configs = {}
+        for label, channel_id in STUDY_CHANNELS.items():
+            work, pause = label.split("/")
+            self.configs[channel_id] = (int(work), int(pause))
+        self.study_channel_id = STUDY_TEXT_CHANNEL
         self.active_sessions = {}
 
     @commands.Cog.listener()
